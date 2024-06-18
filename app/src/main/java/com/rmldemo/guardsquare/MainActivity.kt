@@ -1,5 +1,6 @@
 package com.rmldemo.guardsquare
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -42,7 +43,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        mainAdapter = MainAdapter(arrayListOf())
+        mainAdapter = MainAdapter(arrayListOf(), object : MainAdapter.OnAdapterListener {
+            override fun onClick(result: MainModel.Result) {
+                startActivity(
+                    Intent(applicationContext, DetailActivity::class.java)
+                        .putExtra("intent_title", result.title)
+                        .putExtra("intent_image", result.image)
+                )
+            }
+
+        })
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.apply {
